@@ -22,21 +22,30 @@ pipeline {
             steps { 
                withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
                  script{
-                 app =  docker.build("asg")
+                 app =  docker.build("secchampquantum")
                  }
                }
             }
     }
 
 	stage('Push') {
-            steps {
-                script{
-                    docker.withRegistry('https://145988340565.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
-                    app.push("latest")
-                    }
-                }
-            }
-    	}
+    steps {
+        script {
+            // Hardcoding AWS credentials (temporary solution)
+            sh '''
+                AWS_ACCESS_KEY_ID=AKIAQKPIMFEDDKMFJQ2N \
+                AWS_SECRET_ACCESS_KEY=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 \
+                AWS_DEFAULT_REGION=us-west-2 \
+                aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 022499043590.dkr.ecr.us-west-2.amazonaws.com
+            '''
+            
+            // Pushing the image
+            sh 'docker tag secchampquantum:latest 022499043590.dkr.ecr.us-west-2.amazonaws.com/secchampquantum:latest'
+            sh 'docker push 022499043590.dkr.ecr.us-west-2.amazonaws.com/secchampquantum:latest'
+        }
+    }
+}
+
 	    
   }
 }
