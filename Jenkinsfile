@@ -35,7 +35,7 @@ pipeline {
             // Hardcoding AWS credentials (temporary solution)
             sh '''
                 AWS_ACCESS_KEY_ID=AKIAQKPIMFEDDKMFJQ2N \
-                AWS_SECRET_ACCESS_KEY=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 \
+                AWS_SECRET_ACCESS_KEY=2/VOBZaX5bkRra2OllZ4QA1VouXwidQvJ+zfZS9 \
                 AWS_DEFAULT_REGION=us-west-2 \
                 aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 022499043590.dkr.ecr.us-west-2.amazonaws.com
             '''
