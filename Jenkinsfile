@@ -32,10 +32,10 @@ pipeline {
 	stage('Push') {
     steps {
         script {
-            // Hardcoding AWS credentials (temporary solution)
+            // Get access_key_id/secret from environment varialbe or set it up as AWS credentials in Jenkins
             sh '''
-                AWS_ACCESS_KEY_ID=AKIAQKPIMFEDDKMFJQ2N \
-                AWS_SECRET_ACCESS_KEY=2/VOBZaX5bkRra2OllZ4QA1VouXwidQvJ+zfZS9 \
+                AWS_ACCESS_KEY_ID={AWS_ACCESS_KEY_ID} \
+                AWS_SECRET_ACCESS_KEY={AWS_SECRET} \
                 AWS_DEFAULT_REGION=us-west-2 \
                 aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 022499043590.dkr.ecr.us-west-2.amazonaws.com
             '''
